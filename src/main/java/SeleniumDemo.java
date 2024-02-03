@@ -1,7 +1,5 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 
@@ -11,6 +9,13 @@ public class SeleniumDemo {
 
         WebDriverManager.firefoxdriver().setup();
         WebDriver driver = new FirefoxDriver();
+
+        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        int height = (int) screenSize.getHeight();
+
+        driver.manage().window().setSize(new Dimension(100, height));
+
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
 
 //        SelfHealingDriver selfHealingDriver = TestRigor.selfHeal((RemoteWebDriver) driver, "7Ixfg7yOlY1249fVfGdc7fknhxqYVpONYjiK4Yobv2ziyQg1PF8U");
 
@@ -27,6 +32,8 @@ public class SeleniumDemo {
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }
+
+        jse.executeScript("window.scrollBy(0,250)");
 
         WebElement submitButton = driver.findElement(By.cssSelector("button[type='submit']"));
         submitButton.click();
