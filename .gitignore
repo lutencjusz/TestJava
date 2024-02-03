@@ -2,3 +2,5 @@ gmail-config.properties
 GmailSender.java
 target/
 .idea/
+allure-results/
+
