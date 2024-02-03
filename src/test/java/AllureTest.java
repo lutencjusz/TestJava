@@ -2,6 +2,7 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.model.*;
 import org.junit.Test;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,6 +50,7 @@ public class AllureTest {
         String subsubstepUuid2 = UUID.randomUUID().toString();
         StepResult subsubstepResult2 = new StepResult()
                 .setName("Subsubstep 2")
+                .setDescription("Description Subsubstep 2")
                 .setStatus(Status.FAILED);
         Allure.getLifecycle().startStep(substepUuid1, subsubstepUuid2, subsubstepResult2);
         Allure.getLifecycle().stopStep(subsubstepUuid2);
@@ -84,22 +86,38 @@ public class AllureTest {
                 .setName("Parametr 2")
                 .setValue("Wartość 2");
 
+        // Dodawanie załącznika do subsubsubstepResult2
+        String attachmentContent = "Treść załącznika";
+        byte[] attachmentBytes = attachmentContent.getBytes(StandardCharsets.UTF_8);
+        String attachmentUuid = UUID.randomUUID().toString();
+
+        Attachment attachment = new Attachment()
+                .setName("Załącznik 1")
+                .setType("text/plain")
+                .setSource(attachmentUuid + ".txt");
+
         String subsubsubstepUuid2 = UUID.randomUUID().toString();
         StepResult subsubsubstepResult2 = new StepResult()
                 .setName("SubsubsubStep 2")
                 .setDescription("Description SubsubsubStep 2")
                 .setStatusDetails(statusDetails)
-                .setStatus(Status.PASSED);
+                .setDescriptionHtml("<b>Description SubsubsubStep 2</b>")
+                .setStatus(Status.BROKEN)
+                .setStage(Stage.INTERRUPTED);
+
+        subsubsubstepResult2.getAttachments().add(attachment);
         subsubsubstepResult2.getParameters().add(parameter1);
         subsubsubstepResult2.getParameters().add(parameter2);
 
+        Allure.getLifecycle().addAttachment(attachmentUuid, "text/plain", ".txt", attachmentBytes);
         Allure.getLifecycle().startStep(subsubstepUuid1, subsubsubstepUuid2, subsubsubstepResult2);
         Allure.getLifecycle().stopStep(subsubsubstepUuid2);
 
         String substepUuid2 = UUID.randomUUID().toString();
         StepResult substepResult2 = new StepResult()
                 .setName("Substep 2")
-                .setStatus(Status.PASSED);
+                .setStatus(Status.SKIPPED)
+                .setStage(Stage.RUNNING);
         Allure.getLifecycle().startStep(stepUuid1, substepUuid2, substepResult2);
         Allure.getLifecycle().stopStep(substepUuid2);
 
@@ -142,7 +160,7 @@ public class AllureTest {
         Allure.getLifecycle().writeTestContainer(root.getUuid());
     }
 
-@Test
+    @Test
     public void testAllure() {
         generateTreeStructureReport();
     }
