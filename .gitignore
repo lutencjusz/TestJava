@@ -3,4 +3,5 @@ GmailSender.java
 target/
 .idea/
 allure-results/
+allure-report/
 

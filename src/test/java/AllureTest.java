@@ -1,4 +1,5 @@
 import io.qameta.allure.Allure;
+import io.qameta.allure.Flaky;
 import io.qameta.allure.model.*;
 import org.junit.Test;
 
@@ -23,13 +24,17 @@ public class AllureTest {
         // Dodawanie węzła potomnego do korzenia
         root.getChildren().add(child.getUuid());
 
-        Label label1 = new Label()
-                .setName("issue")
-                .setValue("labelValue1");
+        Label labelOwner = new Label()
+                .setName("owner")
+                .setValue("Jan Kowalski");
 
-        Label label2 = new Label()
-                .setName("issue")
+        Label labelTag = new Label()
+                .setName("tag")
                 .setValue("labelValue2");
+
+        Label labelFlaky = new Label()
+                .setName("broken")
+                .setValue("true");
 
         Parameter parameter1 = new Parameter()
                 .setName("testResult1.Parametr 1")
@@ -70,8 +75,9 @@ public class AllureTest {
                 .setTestCaseName("Przypadek użycia - testResult2.setTestCaseName")
                 .setStatus(Status.PASSED);
 
-        testResult2.getLabels().add(label1);
-        testResult2.getLabels().add(label2);
+        testResult2.getLabels().add(labelOwner);
+        testResult2.getLabels().add(labelTag);
+        testResult2.getLabels().add(labelFlaky);
 
         String testResult1Uuid = UUID.randomUUID().toString();
         TestResult testResult1 = new TestResult()
@@ -89,8 +95,8 @@ public class AllureTest {
                 .setTestCaseName("Przypadek użycia - testResult1.setTestCaseName")
                 .setStatus(Status.FAILED);
 
-        testResult1.getLabels().add(label1);
-        testResult1.getLabels().add(label2);
+        testResult1.getLabels().add(labelOwner);
+        testResult1.getLabels().add(labelTag);
 
         testResult1.getParameters().add(parameter1);
         testResult1.getParameters().add(parameter2);
@@ -210,7 +216,8 @@ public class AllureTest {
         Allure.feature("Feature ustawiona w Allure.feature");
         Allure.story("Story ustawiona w Allure.story");
         Allure.suite("Suite ustawione w Allure.suite");
-        Allure.label("label1", "labelValue1 - ustawione w Allure.label");
+        Allure.label("tag", "labelValue1 tag - ustawione w Allure.label");
+        Allure.label("lead", "labelValue1 lead - ustawione w Allure.label");
         Allure.parameter("Parametr 1", "Wartość 1 - ustawione w Allure.parameter");
         Allure.parameter("Parametr 2", "Wartość 2 - ustawione w Allure.parameter");
         Allure.issue("issue - ustawione w Allure.issue", "https://www.google.pl/");
@@ -226,7 +233,7 @@ public class AllureTest {
         Allure.feature("Feature ustawiona w Allure.feature");
         Allure.story("Story ustawiona w Allure.story");
         Allure.suite("Suite ustawione w Allure.suite");
-        Allure.label("label1", "labelValue1 - ustawione w Allure.label");
+        Allure.label("tag", "labelValue2 tag - ustawione w Allure.label");
         Allure.parameter("Parametr 1", "Wartość 1 - ustawione w Allure.parameter");
         Allure.parameter("Parametr 2", "Wartość 2 - ustawione w Allure.parameter");
         Allure.issue("issue - ustawione w Allure.issue", "https://www.google.pl/");
