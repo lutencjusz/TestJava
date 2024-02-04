@@ -1,5 +1,4 @@
 import io.qameta.allure.Allure;
-import io.qameta.allure.Flaky;
 import io.qameta.allure.model.*;
 import org.junit.Test;
 
