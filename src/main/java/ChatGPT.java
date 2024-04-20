@@ -33,7 +33,7 @@ public class ChatGPT {
         System.out.println("message: " + response.jsonPath().get("message"));
     }
 
-    public static String chatGPT(String message) {
+    public static String getChatGPTMessage(String message) {
         RestAssured.baseURI = CHAT_GPT_ENDPOINT;
         RequestSpecification request = RestAssured.given();
 
@@ -57,11 +57,8 @@ public class ChatGPT {
         EventQueue.invokeLater(() -> {
             MarkdownAWTDisplay ex = new MarkdownAWTDisplay();
             ex.setVisible(true);
-            String markdownText = chatGPT("Zaproponuj metodę na wyświetlenie tekstu w formacie Markdown w aplikacji AWT.");
+            String markdownText = getChatGPTMessage("Zaproponuj metodę na wyświetlenie tekstu w formacie Markdown w aplikacji AWT.");
             ex.displayMarkdown(markdownText);
         });
-
-//        System.out.println(chatGPT("Ile kosztuje pobranie z openai API, jedno zapytanie za pomocą modelu gpt-4-turbo dla osób mających usage trier 1?"));
-//        demoJavelin();
     }
 }
