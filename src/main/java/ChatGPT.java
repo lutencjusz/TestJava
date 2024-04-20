@@ -2,6 +2,9 @@ import io.github.cdimascio.dotenv.Dotenv;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import utils.MarkdownAWTDisplay;
+
+import java.awt.*;
 
 public class ChatGPT {
     private static final Dotenv dotenv = Dotenv.configure()
@@ -30,13 +33,13 @@ public class ChatGPT {
         System.out.println("message: " + response.jsonPath().get("message"));
     }
 
-    public static void chatGPT() {
+    public static String chatGPT(String message) {
         RestAssured.baseURI = CHAT_GPT_ENDPOINT;
         RequestSpecification request = RestAssured.given();
 
         String requestBody = "{"
-                + "\"model\": \"gpt-3.5-turbo\","
-                + "\"messages\": [{\"role\": \"user\", \"content\": \"Hello, world!\"}]"
+                + "\"model\": \"gpt-3.5-turbo-0125\","
+                + "\"messages\": [{\"role\": \"user\", \"content\": \"" + message + "\"}]"
                 + "}";
 
         Response response = request
@@ -47,10 +50,18 @@ public class ChatGPT {
 
         System.out.println("Response Status Code: " + response.getStatusCode());
         System.out.println("Response Body: " + response.getBody().asString());
+        return response.jsonPath().getString("choices[0].message.content");
     }
 
     public static void main(String[] args) {
-        chatGPT();
+        EventQueue.invokeLater(() -> {
+            MarkdownAWTDisplay ex = new MarkdownAWTDisplay();
+            ex.setVisible(true);
+            String markdownText = chatGPT("Zaproponuj metodę na wyświetlenie tekstu w formacie Markdown w aplikacji AWT.");
+            ex.displayMarkdown(markdownText);
+        });
+
+//        System.out.println(chatGPT("Ile kosztuje pobranie z openai API, jedno zapytanie za pomocą modelu gpt-4-turbo dla osób mających usage trier 1?"));
 //        demoJavelin();
     }
 }
