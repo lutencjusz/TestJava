@@ -1,5 +1,6 @@
 gmail-config.properties
 GmailSender.java
+.env
 target/
 .idea/
 allure-results/
