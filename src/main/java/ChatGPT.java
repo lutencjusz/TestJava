@@ -49,7 +49,7 @@ public class ChatGPT {
                 .post();
 
         System.out.println("Response Status Code: " + response.getStatusCode());
-        System.out.println("Response Body: " + response.getBody().asString());
+//        System.out.println("Response Body: " + response.getBody().asString());
         return response.jsonPath().getString("choices[0].message.content");
     }
 
