@@ -2,6 +2,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.fusesource.jansi.Ansi;
 import utils.MarkdownAWTDisplay;
 
 import java.awt.*;
@@ -33,12 +34,12 @@ public class ChatGPT {
         System.out.println("message: " + response.jsonPath().get("message"));
     }
 
-    public static String getChatGPTMessage(String message) {
+    public static String getChatGPTMessage(String message, String model, boolean isStrongerLogging) {
         RestAssured.baseURI = CHAT_GPT_ENDPOINT;
         RequestSpecification request = RestAssured.given();
 
         String requestBody = "{"
-                + "\"model\": \"gpt-3.5-turbo-0125\","
+                + "\"model\": \"" + model + "\","
                 + "\"messages\": [{\"role\": \"user\", \"content\": \"" + message + "\"}]"
                 + "}";
 
@@ -48,8 +49,11 @@ public class ChatGPT {
                 .body(requestBody)
                 .post();
 
-        System.out.println("Response Status Code: " + response.getStatusCode());
-//        System.out.println("Response Body: " + response.getBody().asString());
+        System.out.println(Ansi.ansi().fg(Ansi.Color.BLUE).a(model).reset() + " Response Status Code: "
+                + Ansi.ansi().fg(response.getStatusCode() == 200 ? Ansi.Color.GREEN : Ansi.Color.RED).a(response.getStatusCode()).reset());
+        if (isStrongerLogging) {
+            System.out.println("Response Body: " + response.getBody().asString());
+        }
         return response.jsonPath().getString("choices[0].message.content");
     }
 
@@ -57,7 +61,9 @@ public class ChatGPT {
         EventQueue.invokeLater(() -> {
             MarkdownAWTDisplay ex = new MarkdownAWTDisplay();
             ex.setVisible(true);
-            String markdownText = getChatGPTMessage("Zaproponuj metodę na wyświetlenie tekstu w formacie Markdown w aplikacji AWT.");
+            String model = "gpt-3.5-turbo-0125";
+            String message = "Na postawie Fine-tuning modelu ft:babbage-002:sopim::9GAa3DUL przekaż 'completion' dla następującego 'prompt': [1.0,1.0,0.0,0.0,-1.0,0.0,0.0,0.0,0.0]";
+            String markdownText = getChatGPTMessage(message, model, false);
             ex.displayMarkdown(markdownText);
         });
     }
