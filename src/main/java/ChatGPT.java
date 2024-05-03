@@ -57,13 +57,14 @@ public class ChatGPT {
     }
 
     public static void main(String[] args) {
+        String markdownText="";
         EventQueue.invokeLater(() -> {
             MarkdownAWTDisplay ex = new MarkdownAWTDisplay();
             ex.setVisible(true);
             String model = "gpt-3.5-turbo-0125";
             String message = "Podaj przykład panelu AWT w Javie z pytaniem, odpowiedzią i przyciskiem 'Wyślij'";
             ex.displayQuestion(message);
-            String markdownText = getChatGPTMessage(message, model, false);
+//            markdownText = getChatGPTMessage(message, model, false);
             ex.displayMarkdown(markdownText);
         });
     }
