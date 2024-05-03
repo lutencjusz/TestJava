@@ -3,7 +3,6 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.fusesource.jansi.Ansi;
-import utils.MarkdownAWTDisplay;
 
 import java.awt.*;
 
@@ -62,7 +61,8 @@ public class ChatGPT {
             MarkdownAWTDisplay ex = new MarkdownAWTDisplay();
             ex.setVisible(true);
             String model = "gpt-3.5-turbo-0125";
-            String message = "Na postawie Fine-tuning modelu ft:babbage-002:sopim::9GAa3DUL przekaż 'completion' dla następującego 'prompt': [1.0,1.0,0.0,0.0,-1.0,0.0,0.0,0.0,0.0]";
+            String message = "Podaj przykład panelu AWT w Javie z pytaniem, odpowiedzią i przyciskiem 'Wyślij'";
+            ex.displayQuestion(message);
             String markdownText = getChatGPTMessage(message, model, false);
             ex.displayMarkdown(markdownText);
         });
