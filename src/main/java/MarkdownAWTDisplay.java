@@ -5,9 +5,12 @@ import com.vladsch.flexmark.util.data.MutableDataSet;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 
 public class MarkdownAWTDisplay extends JFrame implements ActionListener {
+    final static double MARGIN_IN_PERCENT = 0.1;
     final int WIDTH = 800;
     final int HEIGHT = 700;
     private JTextPane textPane;
@@ -28,11 +31,17 @@ public class MarkdownAWTDisplay extends JFrame implements ActionListener {
     private void initUI() {
         Insets insets = new Insets(10, 10, 10, 10);
 
+        Panel marginLeft = new Panel();
+        marginLeft.setPreferredSize(new Dimension((int) (WIDTH * MARGIN_IN_PERCENT), HEIGHT));
+
+        Panel marginRight = new Panel();
+        marginRight.setPreferredSize(new Dimension((int) (WIDTH * MARGIN_IN_PERCENT), HEIGHT));
+
         Panel marginDown = new Panel();
-        marginDown.setPreferredSize(new Dimension(WIDTH, HEIGHT / 10));
+        marginDown.setPreferredSize(new Dimension(WIDTH, (int) (HEIGHT * MARGIN_IN_PERCENT)));
 
         Panel marginRadioDown = new Panel();
-        marginDown.setPreferredSize(new Dimension(WIDTH, HEIGHT / 10));
+        marginDown.setPreferredSize(new Dimension(WIDTH, (int) (HEIGHT * MARGIN_IN_PERCENT)));
 
         CheckboxGroup cbg = new CheckboxGroup();
         Checkbox radio1 = new Checkbox("ChatGPT 3.5", cbg, true);
@@ -59,7 +68,7 @@ public class MarkdownAWTDisplay extends JFrame implements ActionListener {
         questionTextField = new TextField();
         questionTextField.setFont(new Font("Arial", Font.PLAIN, 14));
         questionTextField.setPreferredSize(
-                new Dimension(getWidth() * 9 / 10, getHeight() * 2 / 10));
+                new Dimension((int) (getWidth() * (100 - MARGIN_IN_PERCENT)), getHeight() * 2 / 10));
 
         sendButton = new Button("Wyślij");
         sendButton.setMaximumSize(new Dimension(100, 30));
@@ -85,12 +94,6 @@ public class MarkdownAWTDisplay extends JFrame implements ActionListener {
 //        add(Box.createVerticalGlue());
         iframe.add(scrollPane);
         iframe.add(marginDown);
-
-        Panel marginLeft = new Panel();
-        marginLeft.setPreferredSize(new Dimension((int) (WIDTH * 0.1), HEIGHT));
-
-        Panel marginRight = new Panel();
-        marginRight.setPreferredSize(new Dimension((int) (WIDTH * 0.1), HEIGHT));
 
         setLayout(new FlowLayout(FlowLayout.LEFT));
         add(marginLeft);
