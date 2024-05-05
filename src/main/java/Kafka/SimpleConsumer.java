@@ -24,7 +24,7 @@ import java.util.Properties;
 
 public class SimpleConsumer {
     public static void main(String[] args) {
-        String topicName = "my-topic";
+        String topicName = "producer-example";
         Properties props = new Properties();
 
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
