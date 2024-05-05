@@ -40,8 +40,8 @@ public class SimpleConsumer {
             while (true) {
                 ConsumerRecords<String, String> records = consumer.poll(100);
                 for (var record : records) {
-                    System.out.printf("Received message: (key: %s, value: %s, partition: %d, offset: %d)\n",
-                            record.key(), record.value(), record.partition(), record.offset());
+                    System.out.printf("Received message: (timestamp: %tT, key: %s, value: %s, partition: %d, offset: %d)\n",
+                           record.timestamp(), record.key(), record.value(), record.partition(), record.offset());
                 }
             }
         } finally {
