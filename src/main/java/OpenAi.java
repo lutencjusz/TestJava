@@ -5,6 +5,9 @@ import com.openai.models.responses.ResponseCreateParams;
 import utils.OpenAiJsonUtils;
 
 public class OpenAi {
+
+// do uruchomienia metody main konieczny jest ustawiony klucz API w zmiennej środowiskowej OPENAI_API_KEY;
+
     public static void main(String[] args) {
         OpenAIClient client = OpenAIOkHttpClient.fromEnv();
 
